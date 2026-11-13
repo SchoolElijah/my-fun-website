@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Fun Website</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#25234a;background:linear-gradient(135deg,#8ee7ff,#e9b7ff,#ffe49a);min-height:100vh}
+header{text-align:center;padding:48px 18px 28px}h1{font-size:clamp(2.2rem,7vw,4rem);margin:0 0 12px}header p{font-size:1.15rem}
+main{max-width:1050px;margin:auto;padding:18px}.panel{background:#ffffffdf;border-radius:22px;padding:22px;margin:18px 0;box-shadow:0 8px 28px #42308020}
+.controls{display:flex;gap:10px;flex-wrap:wrap}input,select,button{font:inherit;border:0;border-radius:12px;padding:12px}input{flex:1;min-width:180px;background:#f1efff}button{background:#6548d7;color:white;cursor:pointer;font-weight:bold}button:hover{filter:brightness(1.08)}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}.game{background:#f5f1ff;border-radius:15px;padding:18px;text-align:center;font-weight:bold;cursor:pointer}.game span{display:block;font-size:2rem;margin-bottom:8px}.game:focus{outline:3px solid #6548d7}
+footer{text-align:center;padding:25px}
+</style>
+</head>
+<body>
+<header><h1>🎮 My Fun Website 🌈</h1><p>Welcome to a colorful world of games, creativity, and adventure!</p></header>
+<main>
+<section class="panel">
+<h2>✨ Welcome!</h2><p>Explore more than 100 fun game ideas and activities. Search for a game, choose a category, and enjoy exploring. This is a friendly demo website—no account or personal information is needed.</p>
+<div class="controls"><input id="search" type="search" placeholder="Search games..." aria-label="Search games"><select id="category" aria-label="Filter games"><option value="all">All categories</option><option value="puzzle">Puzzles</option><option value="creative">Creative</option><option value="arcade">Arcade</option><option value="adventure">Adventure</option></select></div>
+</section>
+<section class="panel"><h2>🕹️ Explore 100+ game ideas</h2><p id="count" aria-live="polite"></p><div class="games" id="games"></div></section>
+<section class="panel"><h2>😊 Choose your visitor group</h2><p>This is just a demo choice and does not create an account.</p><div class="controls"><select id="visitor"><option value="">Choose one...</option><option>Kid</option><option>Teen</option><option>Adult</option></select><button id="choose">Continue</button></div><p id="message" aria-live="polite"></p></section>
+</main><footer>Made for fun 💜 Keep exploring and be kind!</footer>
+<script>
+const kinds=[["🧩","Puzzle","puzzle"],["🎨","Creative","creative"],["🚀","Arcade","arcade"],["🗺️","Adventure","adventure"],["🐱","Pet Pals","creative"],["🏰","Castle Quest","adventure"],["⭐","Star Catcher","arcade"],["🔢","Number Challenge","puzzle"],["🌻","Garden Designer","creative"],["🧠","Brain Teaser","puzzle"]];
+const games=Array.from({length:110},(_,i)=>{const k=kinds[i%kinds.length];return {icon:k[0],name:k[1]+" "+(Math.floor(i/kinds.length)+1),cat:k[2]}});
+const grid=document.getElementById("games"),search=document.getElementById("search"),category=document.getElementById("category");
+function render(){const q=search.value.toLowerCase();const shown=games.filter(g=>g.name.toLowerCase().includes(q)&&(category.value==="all"||g.cat===category.value));document.getElementById("count").textContent=shown.length+" game ideas shown";grid.innerHTML="";shown.forEach(g=>{const el=document.createElement("div");el.className="game";el.tabIndex=0;el.innerHTML="<span>"+g.icon+"</span>"+g.name;el.addEventListener("click",()=>alert(g.name+" is a game idea. More games coming soon!"));grid.appendChild(el)})}
+search.addEventListener("input",render);category.addEventListener("change",render);render();
+document.getElementById("choose").addEventListener("click",()=>{const v=document.getElementById("visitor").value;document.getElementById("message").textContent=v?"Welcome! You selected "+v+". Have fun exploring!":"Please choose an option first."});
+</script>
+</body></html>
